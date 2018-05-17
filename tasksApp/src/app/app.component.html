@@ -1,0 +1,44 @@
+<h1>Restful Tasks Interactive</h1>
+
+<form (submit)="createTask()">
+  <p>{{ newTask | json }}</p>
+  <label for="title">Task Title:
+    <input name="newTitle" id="newTitle" [(ngModel)]="newTask.title"/>
+  </label>
+  <label for="newDesc">Task Description:
+    <input name=newDesc id=newDesc [(ngModel)]="newTask.description"/>  
+  </label>
+  <button type=submit>Create</button>
+</form>
+<!-- waiting for a click on the button, which will invoke the getAll function in the class (aka component's .ts)file -->
+<button (click)="getAll()">Click me to get all tasks</button>
+<!-- Be able to read all the JSON data in the task object -->
+{{task | json}}
+<!-- Loop through an array of tasks, calling each task t -->
+<div *ngFor="let t of tasks">
+  <!-- Display each task's title -->
+<p>{{t.title}}</p>
+<!-- a button click will invoke getOne and pass it the task's _id and define what selectedTask is-->
+<button (click)="edit(t)">edit</button>
+
+<!-- alternatively, this button also listens for a click and invokes choose() and passes it the entire task -->
+<button (click)="choose(t)">display</button>
+<button (click)="delete(t._id)">delete</button>
+</div>
+<!-- check if selectedTask exists - -->
+<div *ngIf="selectedTask" id="{{ selectedTask.id }}">
+  <!-- display the title and description of the selectedTask -->
+  <p>{{selectedTask.title}}</p>
+  <p>{{selectedTask.description}}</p>
+</div>
+<form *ngIf="editTask" (submit)="updateTask()">
+    <p>{{ editTask | json }}</p>
+    <label for="editTitle">Task Title:
+      <input name="editTitle" id="editTitle" [(ngModel)]="editTask.title"/>
+    </label>
+    <label for="editDesc">Task Description:
+      <input name=editDesc id=editDesc [(ngModel)]="editTask.description"/>  
+    </label>
+    <button type=submit>Update</button>
+  </form>
+
